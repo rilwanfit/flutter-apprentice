@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/recipes/recipe_bottom_nav_main.dart';
 import 'package:my_app/recipes/recipe_light_and_dark_main.dart';
 import 'package:my_app/recipes/recipe_main.dart';
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: RandomWords(),
       // home: RecipeMain(),
-      home: const RecipeLightAndDarkMain(),
+      // home: const RecipeLightAndDarkMain(),
+      home: const RecipeBottomNavMain(),
     );
   }
 }

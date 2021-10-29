@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/recipes/recipe_card1.dart';
+import 'package:my_app/recipes/recipe_card2.dart';
+import 'package:my_app/recipes/recipe_card3.dart';
 
 class RecipeBottomNavMain extends StatefulWidget {
   const RecipeBottomNavMain({Key? key}) : super(key: key);
@@ -11,12 +14,9 @@ class _RecipeBottomNavMainState extends State<RecipeBottomNavMain> {
   int _selectedIndex = 0;
 
   static List<Widget> pages = <Widget>[
-    // TODO: Replace with Card1
-    Container(color: Colors.red),
-    // TODO: Replace with Card2
-    Container(color: Colors.green),
-    // TODO: Replace with Card3
-    Container(color: Colors.blue)
+    const RecipeCard1(),
+    const RecipeCard2(),
+    const RecipeCard3(),
   ];
 
   void _onItemTapped(int index) {

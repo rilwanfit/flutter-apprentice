@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/recipes/recipe_light_and_dark_main.dart';
 import 'package:my_app/recipes/recipe_main.dart';
 
 void main() {
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: RandomWords(),
-      home: RecipeMain(),
+      // home: RecipeMain(),
+      home: const RecipeLightAndDarkMain(),
     );
   }
 }

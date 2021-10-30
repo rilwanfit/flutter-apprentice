@@ -64,6 +64,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/recipes/
+    - assets/recipes/food_pics/
+    - assets/recipes/magazine_pics/
+    - assets/recipes/sample_data/
+    - assets/recipes/profile_pics/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

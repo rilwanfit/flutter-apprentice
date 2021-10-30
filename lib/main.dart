@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/recipes/recipe_bottom_nav_main.dart';
+import 'package:my_app/recipes/recipe_grid_main.dart';
 import 'package:my_app/recipes/recipe_light_and_dark_main.dart';
 import 'package:my_app/recipes/recipe_main.dart';
 import 'package:my_app/recipes/recipe_scrollable_main.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
       // home: RecipeMain(),
       // home: const RecipeLightAndDarkMain(),
       // home: const RecipeBottomNavMain(),
-      home: const RecipeScrollableMain(),
+      // home: const RecipeScrollableMain(),
+      home: const RecipeGridMain(),
     );
   }
 }

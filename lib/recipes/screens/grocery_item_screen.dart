@@ -8,15 +8,35 @@ import '../models/models.dart';
 
 class GroceryItemScreen extends StatefulWidget {
   final Function(GroceryItem) onCreate;
-  final Function(GroceryItem) onUpdate;
+  final Function(GroceryItem, int) onUpdate;
   final GroceryItem? originalItem;
   final bool isUpdating;
+  final int index;
+
+  // MaterialPage Helper
+  static MaterialPage page(
+      {GroceryItem? item,
+      int index = -1,
+      required Function(GroceryItem) onCreate,
+      required Function(GroceryItem, int) onUpdate}) {
+    return MaterialPage(
+      name: Pages.groceryItemDetails,
+      key: ValueKey(Pages.groceryItemDetails),
+      child: GroceryItemScreen(
+        originalItem: item,
+        index: index,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+      ),
+    );
+  }
 
   const GroceryItemScreen({
     Key? key,
     required this.onCreate,
     required this.onUpdate,
     this.originalItem,
+    this.index = -1,
   })  : isUpdating = (originalItem != null),
         super(key: key);
 
@@ -25,7 +45,6 @@ class GroceryItemScreen extends StatefulWidget {
 }
 
 class _GroceryItemScreenState extends State<GroceryItemScreen> {
-  // Add grocery item screen state properties
   final _nameController = TextEditingController();
   String _name = '';
   Importance _importance = Importance.low;
@@ -34,40 +53,8 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   Color _currentColor = Colors.green;
   int _currentSliderValue = 0;
 
-  // Add initState()
-  @override
-  void initState() {
-    final originalItem = widget.originalItem;
-    if (originalItem != null) {
-      _nameController.text = originalItem.name;
-      _name = originalItem.name;
-      _currentSliderValue = originalItem.quantity;
-      _importance = originalItem.importance;
-      _currentColor = originalItem.color;
-      final date = originalItem.date;
-      _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
-      _dueDate = date;
-    }
-
-    _nameController.addListener(() {
-      setState(() {
-        _name = _nameController.text;
-      });
-    });
-
-    super.initState();
-  }
-
-  // Add dispose()
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Add GroceryItemScreen Scaffold
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -90,7 +77,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
               );
 
               if (widget.isUpdating) {
-                widget.onUpdate(groceryItem);
+                widget.onUpdate(groceryItem, widget.index);
               } else {
                 widget.onCreate(groceryItem);
               }
@@ -259,7 +246,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
     );
   }
 
-  // Add buildTimeField()
   Widget buildTimeField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,5 +366,34 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    final originalItem = widget.originalItem;
+    if (originalItem != null) {
+      _name = originalItem.name;
+      _nameController.text = originalItem.name;
+      _currentSliderValue = originalItem.quantity;
+      _importance = originalItem.importance;
+      _currentColor = originalItem.color;
+      final date = originalItem.date;
+      _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
+      _dueDate = date;
+    }
+
+    _nameController.addListener(() {
+      setState(() {
+        _name = _nameController.text;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
   }
 }

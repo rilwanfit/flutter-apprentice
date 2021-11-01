@@ -1,14 +1,83 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/recipes/light_and_dark_theme.dart';
+import 'package:my_app/recipes/models/models.dart';
+import 'package:my_app/recipes/navigation/app_router.dart';
 import 'package:my_app/recipes/recipe_bottom_nav_main.dart';
 import 'package:my_app/recipes/recipe_grid_main.dart';
 import 'package:my_app/recipes/recipe_interactive_main.dart';
 import 'package:my_app/recipes/recipe_light_and_dark_main.dart';
 import 'package:my_app/recipes/recipe_main.dart';
 import 'package:my_app/recipes/recipe_scrollable_main.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Fooderlich());
+}
+
+class Fooderlich extends StatefulWidget {
+  const Fooderlich({Key? key}) : super(key: key);
+
+  @override
+  _FooderlichState createState() => _FooderlichState();
+}
+
+class _FooderlichState extends State<Fooderlich> {
+  final _groceryManager = GroceryManager();
+  final _profileManager = ProfileManager();
+
+  // Create AppStateManager
+  final _appStateManager = AppStateManager();
+
+  // Define AppRouter
+  late AppRouter _appRouter;
+
+  // Initialize AppRouter
+  @override
+  void initState() {
+    _appRouter = AppRouter(
+      appStateManager: _appStateManager,
+      groceryManager: _groceryManager,
+      profileManager: _profileManager,
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => _groceryManager,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => _profileManager,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => _appStateManager,
+        ),
+      ],
+      child: Consumer<ProfileManager>(
+        builder: (context, profileManager, child) {
+          ThemeData theme;
+          if (profileManager.darkMode) {
+            theme = LightAndDarkTheme.dark();
+          } else {
+            theme = LightAndDarkTheme.light();
+          }
+
+          return MaterialApp(
+            theme: theme,
+            title: 'Fooderlich',
+            home: Router(
+              routerDelegate: _appRouter,
+              backButtonDispatcher: RootBackButtonDispatcher(),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

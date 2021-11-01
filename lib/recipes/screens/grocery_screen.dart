@@ -10,32 +10,17 @@ class GroceryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Add a scaffold widget
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          // Present GroceryItemScreen
-          final manager = Provider.of<GroceryManager>(context, listen: false);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GroceryItemScreen(
-                onCreate: (item) {
-                  manager.addItem(item);
-                  Navigator.pop(context);
-                },
-                onUpdate: (item) {},
-              ),
-            ),
-          );
+          Provider.of<GroceryManager>(context, listen: false).createNewItem();
         },
       ),
       body: buildGroceryScreen(),
     );
   }
 
-  // Add buildGroceryScreen
   Widget buildGroceryScreen() {
     return Consumer<GroceryManager>(
       builder: (context, manager, child) {
